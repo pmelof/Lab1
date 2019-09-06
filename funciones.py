@@ -6,6 +6,8 @@
 
 # IMPORTAR LIRERÍAS
 import matplotlib.pylab as plt
+from scipy.fftpack import fft
+from scipy import fftpack
 import scipy as sp
 import scipy.io.wavfile as waves
 import wave
@@ -22,9 +24,17 @@ def graphSong(dataRead, sampleRate):
     plt.ylabel('Amplitud')
     plt.show()
 
+def dffGraphSong(dataRead, sampleRate):
+    time = np.linspace(0, len(dataRead) / sampleRate, num=len(dataRead))
+    fft_out = fft(dataRead)
+    plt.plot(time, np.abs(fft_out))
+    plt.show()
+
 def main():
     sampleRate, dataRead = waves.read('handel.wav')
     graphSong(dataRead, sampleRate)
+    dffGraphSong(dataRead, sampleRate)
+
 
 # INGRESO
 main();
