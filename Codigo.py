@@ -41,7 +41,7 @@ def sound_freq_graph(data_read, sample_rate):
     plt.title("Transformada de Fourier \n del sonido", fontdict={'size': 15})
     plt.xlabel("Frecuencia [Hz]")
     plt.ylabel("|F(w)|")
-    plt.savefig("2 Transformada de Fourier.png", bbox_inches='tight')
+    plt.savefig("2 Grafico de la señal original en el dominio de la frecuencia.png", bbox_inches='tight')
     plt.clf()
     return fft_out, fft_freq
 
@@ -60,7 +60,7 @@ def truncated_sound_graph(fft_out, fft_freq):
     plt.title("Transformada de Fourier \n del sonido (truncado)", fontdict={'size': 15})
     plt.xlabel("Frecuencia [Hz]")
     plt.ylabel("|F(w)|")
-    plt.savefig("5 Transformada de Fourier (truncada).png", bbox_inches='tight')
+    plt.savefig("5 Grafico de la señal truncada en el dominio de la frecuencia.png", bbox_inches='tight')
     plt.clf()
     return fft_out
 
@@ -83,19 +83,19 @@ Función bloque principal .
 def main():
     # Original Sound
     sample_rate, data_read = waves.read('handel.wav')
-    save_sound_graph(data_read, sample_rate, "1 Amplitud vs Tiempo (original).png")
+    save_sound_graph(data_read, sample_rate, "1 Grafico de la señal original en funcion del tiempo.png")
 
     # FFT and IFFT
     fft_out_1, fft_freq_1 = sound_freq_graph(data_read, sample_rate)
-    ifft_out_1 = inverse_fft_to_sound_file(fft_out_1, sample_rate, 'inversa.wav')
-    save_sound_graph(ifft_out_1.real, sample_rate, "3 Amplitud vs Tiempo (inversa).png")
-    save_sound_graph(ifft_out_1.real - data_read, sample_rate, "4 Amplitud vs Tiempo (dif original inversa).png")
+    ifft_out_1 = inverse_fft_to_sound_file(fft_out_1, sample_rate, 'hadel_inversa.wav')
+    save_sound_graph(ifft_out_1.real, sample_rate, "3 Grafico de la señal reconstruida en funcion del tiempo.png")
+    save_sound_graph(ifft_out_1.real - data_read, sample_rate, "4 Grafico de perdida de informacion al reconstruir la señal.png")
 
     # Truncated Sound and IFFT
     fft_out_2 = truncated_sound_graph(fft_out_1, fft_freq_1)
-    ifft_out_2 = inverse_fft_to_sound_file(fft_out_2, sample_rate, 'truncado.wav')
-    save_sound_graph(ifft_out_2.real, sample_rate, "6 Amplitud vs Tiempo (truncado).png")
-    save_sound_graph(ifft_out_2.real - data_read, sample_rate, "7 Amplitud vs Tiempo (dif original truncado).png")
+    ifft_out_2 = inverse_fft_to_sound_file(fft_out_2, sample_rate, 'hadel_truncado.wav')
+    save_sound_graph(ifft_out_2.real, sample_rate, "6 Grafico de la señal truncada y reconstruida en funcion del tiempo.png")
+    save_sound_graph(ifft_out_2.real - data_read, sample_rate, "7 Grafico de la perdida de informacion al reconstruir la señal truncada.png")
 
 
 # CALL MAIN
