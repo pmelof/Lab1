@@ -11,6 +11,12 @@ import numpy as np
 
 
 # FUNCTION DEFINITION
+"""
+Función que guarda el gráfico de la señal en el tiempo.
+Entrada: arreglo de datos de la amplitud de la señal, frecuencia de muestreo, 
+        nombre del grafico a guardar. 
+Salida: sin variables de salida.
+"""
 def save_sound_graph(data_read, sample_rate, name):
     time = np.linspace(0, len(data_read) / sample_rate, num=len(data_read))
     plt.plot(time, data_read, color='y')
@@ -18,9 +24,16 @@ def save_sound_graph(data_read, sample_rate, name):
     plt.xlabel('Tiempo [s]')
     plt.ylabel('Amplitud')
     plt.savefig(name, bbox_inches='tight')
-    plt.show()
+    plt.clf()
 
 
+"""
+Función que guarda el gráfico de la señal en el dominio de la frecuencia y entrega
+las transformadas de Fourier.
+Entrada: arreglo de datos de la amplitud de la señal, frecuencia de muestreo.
+Salida: transformada de Fourier discreta y frecuencias de muestra de Transformada 
+        discreta de Fourier de la señal.
+"""
 def sound_freq_graph(data_read, sample_rate):
     fft_out = fft(data_read)
     fft_freq = fftfreq(len(data_read), 1 / sample_rate)
@@ -29,10 +42,17 @@ def sound_freq_graph(data_read, sample_rate):
     plt.xlabel("Frecuencia [Hz]")
     plt.ylabel("|F(w)|")
     plt.savefig("2 Transformada de Fourier.png", bbox_inches='tight')
-    plt.show()
+    plt.clf()
     return fft_out, fft_freq
 
 
+"""
+Función que guarda el gráfico de la señal truncada en el dominio de la frecuencia y
+los nuevos datos truncados de la transformada de Fourier.
+Entrada: transformada de Fourier discreta, frecuencias de muestra de Transformada 
+        discreta de Fourier de la señal.
+Salida: transformada de Fourier discreta truncada.
+"""
 def truncated_sound_graph(fft_out, fft_freq):
     # centro 36556+-1
     fft_out[11346:61767] = 0
@@ -41,16 +61,25 @@ def truncated_sound_graph(fft_out, fft_freq):
     plt.xlabel("Frecuencia [Hz]")
     plt.ylabel("|F(w)|")
     plt.savefig("5 Transformada de Fourier (truncada).png", bbox_inches='tight')
-    plt.show()
+    plt.clf()
     return fft_out
 
 
+"""
+Función que realiza la transformada de Fourier inversa y guarda la señal como un 
+archivo de audio.
+Entrada: datos de la señal, frecuencias de muestreo, nombre del archivo de salida.
+Salida: transformada de Fourier inversa de la señal.
+"""
 def inverse_fft_to_sound_file(fft_out, sample_rate, file_name):
     ifft_out = ifft(fft_out)
     waves.write(file_name, sample_rate, ifft_out.real)
     return ifft_out
 
 
+"""
+Función bloque principal .
+"""
 def main():
     # Original Sound
     sample_rate, data_read = waves.read('handel.wav')
